@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+  {% block body %}
+{% load static %}
+<head>
+  <style>
+    .dropbtn {
+background-color: #101310;
+color: white;
+padding: 16px;
+font-size: 16px;
+border: none;
+cursor: pointer;
+}
+
+.dropdown {
+position: relative;
+display: inline-block;
+}
+
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #f9f9f9;
+min-width: 160px;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
+}
+
+.dropdown-content a {
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+.dropdown:hover .dropbtn {
+background-color: #e3f3e4;
+}
+  </style>
+
+</head>
+<!-- Top Background Image Wrapper -->
+<div class="bgded overlay" style="background-image:url('{% static 'hm/images/demo/backgrounds/hosp.jpg' %}');">
+  <!-- ################################################################################################ -->
+  <!-- ################################################################################################ -->
+  <div class="wrapper row0">
+    <div class="category">
+
+    <div class="dropdown">
+      <button class="dropbtn">Departments</button>
+      <div class="dropdown-content">
+        <b style="color:beige;"><a href="/">All</a></b><br>
+        {% for i in ct %}
+        <b style="color:beige;"><a href={{i.get_url}}>{{i.name}}</a></b><br>
+        {% endfor%}
+      </div>
+    </div>
+    </div>
+    <!-- <div class="wrapper row0"> -->
+      <div id="topbar" class="hoc clear">
+  
+        <div class="fl_right">
+          <!-- ################################################################################################ -->
+          <ul class="nospace">
+            <li id="searchform">
+              <div>
+                <form action="{% url 'search' %}" method="get">
+                  {% csrf_token %}
+                  <fieldset>
+                    <legend>Quick Search:</legend>
+                    <input type="text" placeholder="Enter search term&hellip;"name="q">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                  </fieldset>
+                </form>
+              </div>
+            </li>
+          </ul>
+          <!-- ################################################################################################ -->
+        </div>
+      </div>
+    <!-- </div> -->
+  
+  </div>
+
+  <div id="pageintro" class="hoc clear">
+    <!-- ################################################################################################ -->
+    <article>
+      <h3 class="heading">We are here for you, to care,to protect, to support</h3>
+      <p>Smile at the obstacles,for it is a bridge</p>
+      <footer>
+
+      </footer>
+    </article>
+    <!-- ################################################################################################ -->
+  </div>
+  <!-- ################################################################################################ -->
+</div>
+<div class="wrapper row3">
+  <main class="hoc container clear">
+    <!-- main body -->
+    <!-- ################################################################################################ -->
+    <section id="introblocks">
+      <ul class="nospace group btmspace-80">
+       {% for i in pg.object_list %}
+        <li class="one_third ">
+          <figure><a class="imgover" href="{{i.get_url}}"><img src="{{i.img.url}}" alt="" style="height:350;"></a>
+            <figcaption>
+              <h6 class="heading">Dr. {{i.name}}</h6>
+              <p>{{i.desc|truncatewords:17}}</p>
+            </figcaption>
+          </figure>
+          &nbsp;
+        </li>
+        {% endfor %}
+
+      </ul>
+    </section>
+    <!-- ################################################################################################ -->
+    <hr class="btmspace-80">
+    <center>
+      {% for p in pg.paginator.page_range %}
+      <a href="?page={{p}}" class="btn btn-light btn-sm {% if pg.number == p%} active {% endif %}">{{p}}</a>
+      {% endfor %}
+    </center>
+    
+</main>
+</div>
+
+{% endblock %}
